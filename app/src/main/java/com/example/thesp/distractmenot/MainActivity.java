@@ -1,9 +1,16 @@
 package com.example.thesp.distractmenot;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Switch to About activity when the about button is pressed
+    public void onAboutButton(View view) {
+        startActivity(new Intent(this, AboutActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

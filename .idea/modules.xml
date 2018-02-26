@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DistractMeNot.iml" filepath="$PROJECT_DIR$/DistractMeNot.iml" />
-      <module fileurl="file://C:\Users\Tyler\Documents\School\Java\Projects\DistractMeNot\DistractMeNot.iml" filepath="C:\Users\Tyler\Documents\School\Java\Projects\DistractMeNot\DistractMeNot.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Tyler\Documents\School\Java\Projects\DistractMeNot\app\app.iml" filepath="C:\Users\Tyler\Documents\School\Java\Projects\DistractMeNot\app\app.iml" />
     </modules>
   </component>
 </project>
