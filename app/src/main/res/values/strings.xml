@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Distract Me Not</string>
+    <string name="title_activity_main">Distract Me Not</string>
     <string name="title_activity_setup">SetupActivity</string>
 
     <string name="button_about">About</string>
+    <string name="button_setup">Set up Preset</string>
+    <string name="button_preset1">Study</string>
+    <string name="button_preset2">Religion</string>
 
     <string name="about_title">About Us</string>
     <string name="about_text">

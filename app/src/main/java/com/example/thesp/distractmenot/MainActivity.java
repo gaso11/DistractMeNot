@@ -12,6 +12,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AboutActivity.class));
     }
 
+    // Switch to Setup activity when the set up preset button is pressed
+    public void onSetUpButton(View view) {
+        startActivity(new Intent(this, SetUpActivity.class));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
