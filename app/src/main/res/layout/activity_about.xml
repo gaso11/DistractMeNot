@@ -11,23 +11,31 @@
         android:layout_width="90dp"
         android:layout_height="36dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/about_title"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/about_us"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        tools:layout_editor_absoluteX="4dp" />
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="379dp"
         android:layout_height="513dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -38,8 +46,10 @@
             <TextView
                 android:id="@+id/about_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/about_text" />
         </LinearLayout>
+
     </ScrollView>
+
 </android.support.constraint.ConstraintLayout>
