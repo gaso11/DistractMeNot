@@ -27,4 +27,7 @@
         Distract me not created by Emily, Tyler, Evan and George \n
         @2018
     </string>
+    <string name="set_up">Set - Up</string>
+    <string name="set_timer">Set Timer:</string>
+    <string name="enter_a_name">Enter a name:</string>
 </resources>
