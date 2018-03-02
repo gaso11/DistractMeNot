@@ -3,6 +3,8 @@ package com.example.thesp.distractmenot;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.thesp.distractmenot.R;
+
 public class AboutActivity extends AppCompatActivity {
 
     @Override
