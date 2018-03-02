@@ -14,7 +14,8 @@
         have distractions such as notifications, Social Media Platforms, messages and many other
         things. This app hopes to address those issues by preventing the user for accessing apps
         and notifications.\n\n
-
+    </string>
+    <string name="about_set_up">
         Set up:\n\n
 
         1) On the setup page, tap create at the bottom of the screen.\n\n
