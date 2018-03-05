@@ -53,12 +53,14 @@
                 android:id="@+id/button_preset1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onButtonPreset1"
                 android:text="@string/button_preset1" />
 
             <Button
                 android:id="@+id/button_preset2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onButtonPreset2"
                 android:text="@string/button_preset2" />
 
         </LinearLayout>
