@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,5 +55,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String buttonName = intent.getStringExtra("com.example.thesp.distractmenot.setupActivity_newButtonName");
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
+        Button newButton = new Button(this);
+        newButton.setText(buttonName);
+        newButton.setLayoutParams(new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT));
+        layout.addView(newButton);
     }
 }

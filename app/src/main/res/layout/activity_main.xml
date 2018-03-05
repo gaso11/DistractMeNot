@@ -45,6 +45,7 @@
         app:layout_constraintVertical_bias="0.13999999">
 
         <LinearLayout
+            android:id="@+id/buttonAreaLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
