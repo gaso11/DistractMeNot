@@ -25,4 +25,5 @@ public class SetUpActivity extends AppCompatActivity {
         intent.putExtra("com.example.thesp.distractmenot.setupActivity_newButtonName", buttonName);
         startActivity(intent);
     }
+
 }
