@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.icu.util.Calendar;
@@ -72,5 +73,30 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.addView(newButton);
+    }
+
+    //What happens when they come back to our app after visiting someplace else?
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    //what happens when they change to a new screen leaving our app
+    //It needs to save Shared Preferences
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    private void saveSharedPref(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //some code
+        editor.commit();
+
+    }
+
+    private void loadSharedPref(){
+
     }
 }
