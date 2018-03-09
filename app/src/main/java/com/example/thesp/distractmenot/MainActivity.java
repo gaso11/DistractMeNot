@@ -3,12 +3,16 @@ package com.example.thesp.distractmenot;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import java.util.ArrayList;
 
 import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
 
@@ -17,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     // Stores which mode is currently active
     private Mode currentMode;
 
+    // All modes currently available
+    private ArrayList<Mode> modes;
+
     // Changes to a new mode
     private void changeMode(String modeName) {
         // Set the button colors
@@ -24,13 +31,15 @@ public class MainActivity extends AppCompatActivity {
             // Whatever is the current selected mode should be deactivated
             int resID = getResources().getIdentifier(currentMode.getModeName(), "id", getPackageName());
             Button b = findViewById(resID);
-            b.setBackgroundColor(Color.parseColor("#ffffff"));
+            b.setBackgroundColor(Color.parseColor("#c9c9c9"));
         }
 
         currentMode = new Mode(modeName);
 
         int resID = getResources().getIdentifier(modeName, "id", getPackageName());
         Button b = findViewById(resID);
+        Button TEST_ = findViewById(getResources().getIdentifier("button_preset1", "id", getPackageName()));
+        //Log.d( "Color", Integer.toString(((ColorDrawable)TEST_.getBackground()).getColor()));
         b.setBackgroundColor(Color.parseColor("#d84098"));
     }
 
