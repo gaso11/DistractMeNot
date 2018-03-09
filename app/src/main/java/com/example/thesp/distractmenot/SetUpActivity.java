@@ -26,4 +26,8 @@ public class SetUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showTimePickerDialog(View view) {
+
+    }
+
 }
