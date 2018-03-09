@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class SetUpActivity extends AppCompatActivity {
 
@@ -20,6 +21,9 @@ public class SetUpActivity extends AppCompatActivity {
     public void onNewMode(View view) {
         EditText settingName = findViewById(R.id.settingName);
         String buttonName = settingName.getText().toString();
+
+        //Save Settings
+        Toast.makeText(getApplicationContext(),"Saving Settings", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("com.example.thesp.distractmenot.setupActivity_newButtonName", buttonName);
