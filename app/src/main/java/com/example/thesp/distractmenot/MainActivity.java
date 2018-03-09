@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
@@ -67,12 +70,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        String buttonName = intent.getStringExtra("com.example.thesp.distractmenot.setupActivity_newButtonName");
+        String buttonNameTest = loadSharedPref();
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
         Button newButton = new Button(this);
-        newButton.setText(buttonName);
+        newButton.setText(buttonNameTest);
         newButton.setLayoutParams(new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -92,15 +94,10 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void saveSharedPref(){
-        SharedPreferences sharedPreferences = this.getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //some code
-        editor.commit();
-
-    }
-
-    private void loadSharedPref(){
-
+    private String loadSharedPref(){
+        Toast.makeText(getApplicationContext(),"Loading User Settings", Toast.LENGTH_SHORT).show();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = prefs.getString("Setting", "");
+        return name; //this will be changed to the JSON string once we have that
     }
 }

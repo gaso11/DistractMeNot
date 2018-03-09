@@ -1,6 +1,10 @@
 package com.example.thesp.distractmenot;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,13 +29,16 @@ public class SetUpActivity extends AppCompatActivity {
         //Save Settings
         Toast.makeText(getApplicationContext(),"Saving Settings", Toast.LENGTH_SHORT).show();
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("Setting", buttonName);
+        editor.commit();
+
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("com.example.thesp.distractmenot.setupActivity_newButtonName", buttonName);
         startActivity(intent);
     }
 
     public void showTimePickerDialog(View view) {
 
     }
-
 }
