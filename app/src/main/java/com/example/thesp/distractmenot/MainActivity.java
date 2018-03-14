@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Changes to a new mode
     private void changeMode(String modeName) {
+        Log.i(this.getLocalClassName(), "Switching active mode");
+
         // Set the button colors
         if (currentMode != null && currentMode.getModeName() != modeName) {
             // Whatever is the current selected mode should be deactivated
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(this.getLocalClassName()+ "onResume", "Activity state change: onResume");
     }
 
     //what happens when they change to a new screen leaving our app
@@ -89,10 +92,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i(this.getLocalClassName()+ "onPause", "Activity state change: onPause");
     }
 
     private String loadSharedPref(){
         Toast.makeText(getApplicationContext(),"Loading User Settings", Toast.LENGTH_SHORT).show();
+        Log.i(this.getLocalClassName(), "Loading from SharedPreferences");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String name = prefs.getString("Setting", "");
         return name; //this will be changed to the JSON string once we have that
