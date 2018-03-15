@@ -27,22 +27,29 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Mode> modes;
 
     // Changes to a new mode
-    private void changeMode(String modeName) {
+    private void changeMode(Mode newMode) {
         Log.i(this.getLocalClassName(), "Switching active mode");
 
         // Set the button colors
-        if (currentMode != null && currentMode.getModeName() != modeName) {
+        if (currentMode != null) {
             // Whatever is the current selected mode should be deactivated
             int resID = getResources().getIdentifier(currentMode.getModeName(), "id", getPackageName());
             Button b = findViewById(resID);
             b.getBackground().setColorFilter(null); // Sets ColorFilter back to default
         }
 
-        currentMode = new Mode(modeName);
+        if (currentMode != newMode) {
+            if (currentMode != null)
+                Log.d(this.getLocalClassName(), "Switching from " + currentMode.getModeName() + " to " + newMode.getModeName());
+            currentMode = newMode;
 
-        int resID = getResources().getIdentifier(modeName, "id", getPackageName());
-        Button b = findViewById(resID);
-        b.getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
+            int resID = getResources().getIdentifier(newMode.getModeName(), "id", getPackageName());
+            Button b = findViewById(resID);
+            b.getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
+        } else {
+            Log.d(this.getLocalClassName(), "Deactivating mode " + currentMode.getModeName());
+            currentMode = null;
+        }
     }
 
     /* Temporary functions for the buttons
@@ -50,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
         and there can be some kind of function that will connect to all buttons in the list (somehow)
         and it can be applied to the dynamically generated buttons.      -Tyler
      */
+
     // When a button is pressed, the mode gets set to that one
-    public void onButtonPreset1(View view) { changeMode("button_preset1"); }
-    public void onButtonPreset2(View view) { changeMode("button_preset2"); }
+    public void onButtonPreset1(View view) { changeMode(modes.get(0)); }
+    public void onButtonPreset2(View view) { changeMode(modes.get(1)); }
 
     // Switch to About activity when the about button is pressed
     public void onAboutButton(View view) {
@@ -70,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String buttonNameTest = loadSharedPref();
+
+        // The two default buttons
+        modes = new ArrayList<Mode>(20);
+
+        modes.add(0, new Mode("button_preset1", this));
+        modes.add(1, new Mode("button_preset2", this));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
         Button newButton = new Button(this);
