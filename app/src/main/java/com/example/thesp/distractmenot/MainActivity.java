@@ -3,6 +3,7 @@ package com.example.thesp.distractmenot;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -86,11 +87,13 @@ public class MainActivity extends AppCompatActivity {
         modes.add(1, new Mode("button_preset2", this));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
+
         Button newButton = new Button(this);
         newButton.setText(buttonNameTest);
+
         newButton.setLayoutParams(new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT));
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
     }
 
