@@ -1,11 +1,15 @@
 package com.example.thesp.distractmenot;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +21,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.example.thesp.distractmenot.StringConstants.NEW_BUTTON_NAME;
 import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,15 +90,23 @@ public class MainActivity extends AppCompatActivity {
         modes.add(0, new Mode("button_preset1", this));
         modes.add(1, new Mode("button_preset2", this));
 
-        /*LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
 
         Button newButton = new Button(this);
         newButton.setText(buttonNameTest);
 
         newButton.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        layout.addView(newButton);*/
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(newButton);
+
+        NotificationListenerService notify = new NotifyListener();
+
+        //notify has a method that we can pass in an array of strings for the apps we want to block
+        //notifications.
+        notify.getActiveNotifications();
+        notify.cancelAllNotifications();
+
     }
 
     //What happens when they come back to our app after visiting someplace else?
@@ -103,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(this.getLocalClassName()+ "onResume", "Activity state change: onResume");
-
-        String buttonName = getIntent().getStringExtra(NEW_BUTTON_NAME);
-        if (buttonName != null) {
-            createNewButton(buttonName);
-        }
     }
 
     //what happens when they change to a new screen leaving our app
@@ -124,27 +130,5 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String name = prefs.getString("Setting", "");
         return name; //this will be changed to the JSON string once we have that
-    }
-
-    public void createNewButton(String name) {
-        Log.i(this.getLocalClassName(), "Making new button with name " + name);
-        Button newButton = new Button(this);
-        newButton.setText(name);
-
-        newButton.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        ((LinearLayout)findViewById(R.id.buttonAreaLayout)).addView(newButton);
-
-        int resID = getResources().getIdentifier(name, "id", getPackageName());
-        Mode mode = new Mode("TEST", this);
-        final int index = modes.size() - 1;
-        modes.add(index, mode);
-
-        newButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                changeMode(modes.get(index));
-            }
-        });
     }
 }
