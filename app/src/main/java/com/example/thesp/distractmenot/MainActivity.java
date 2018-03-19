@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         //notify has a method that we can pass in an array of strings for the apps we want to block
         //notifications.
+        notify.getActiveNotifications();
         notify.cancelAllNotifications();
 
     }
