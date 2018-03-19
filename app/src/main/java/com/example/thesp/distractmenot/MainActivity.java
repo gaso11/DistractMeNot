@@ -100,13 +100,6 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
 
-        NotificationListenerService notify = new NotifyListener();
-
-        //notify has a method that we can pass in an array of strings for the apps we want to block
-        //notifications.
-        notify.getActiveNotifications();
-        notify.cancelAllNotifications();
-
     }
 
     //What happens when they come back to our app after visiting someplace else?
@@ -114,6 +107,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(this.getLocalClassName()+ "onResume", "Activity state change: onResume");
+        NotificationListenerService notify = new NotifyListener();
+
+        Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+        startActivity(intent);
+
+        //notify has a method that we can pass in an array of strings for the apps we want to block
+        //notifications.
+        notify.getActiveNotifications();
+        notify.cancelAllNotifications();
     }
 
     //what happens when they change to a new screen leaving our app
