@@ -6,4 +6,5 @@ package com.example.thesp.distractmenot;
 
 public class StringConstants {
     public static final String SHARED_PREF_FILE = "distract_me_not_prefs";
+    public static final String NEW_BUTTON_NAME = "extra_new_button_name";
 }

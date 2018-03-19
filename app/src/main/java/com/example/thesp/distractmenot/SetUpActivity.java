@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.example.thesp.distractmenot.StringConstants.NEW_BUTTON_NAME;
+
 public class SetUpActivity extends AppCompatActivity {
 
     @Override
@@ -37,6 +39,7 @@ public class SetUpActivity extends AppCompatActivity {
         editor.commit();
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(NEW_BUTTON_NAME, buttonName);
         startActivity(intent);
     }
 
