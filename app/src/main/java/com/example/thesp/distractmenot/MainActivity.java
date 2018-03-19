@@ -1,11 +1,15 @@
 package com.example.thesp.distractmenot;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
+
+        NotificationListenerService notify = new NotifyListener();
+
+        //notify has a method that we can pass in an array of strings for the apps we want to block
+        //notifications.
+        notify.cancelAllNotifications();
+
     }
 
     //What happens when they come back to our app after visiting someplace else?
