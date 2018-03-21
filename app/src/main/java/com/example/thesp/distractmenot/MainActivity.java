@@ -1,9 +1,11 @@
 package com.example.thesp.distractmenot;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -18,12 +20,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
+import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
 
-/**
- * The first activity in our class
- *
- * <br>Test: <ul><li>The first thing</li><li>The second thing</li><li>The third thing</li></ul>
- */
 public class MainActivity extends AppCompatActivity {
 
     // Stores which mode is currently active
@@ -86,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Boolean gavePermission = false;
         setContentView(R.layout.activity_main);
 
         String buttonNameTest = loadSharedPref();
@@ -106,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
 
-        Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-        startActivity(intent);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     //What happens when they come back to our app after visiting someplace else?
@@ -116,12 +115,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(this.getLocalClassName()+ "onResume", "Activity state change: onResume");
-        NotificationListenerService notify = new NotifyListener();
 
-        //notify has a method that we can pass in an array of strings for the apps we want to block
-        //notifications.
-        notify.getActiveNotifications();
-        notify.cancelAllNotifications();
+
     }
 
     //what happens when they change to a new screen leaving our app
@@ -139,4 +134,21 @@ public class MainActivity extends AppCompatActivity {
         String name = prefs.getString("Setting", "");
         return name; //this will be changed to the JSON string once we have that
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    //Yes button clicked
+                    Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                    startActivity(intent);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 }
