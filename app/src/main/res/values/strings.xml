@@ -5,6 +5,7 @@
 
     <string name="button_about">About</string>
     <string name="button_setup">Set up Preset</string>
+    <string name="button_set_timer">Set Timer</string>
     <string name="button_preset1">Study</string>
     <string name="button_preset2">Religion</string>
 

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import static com.example.thesp.distractmenot.AppObject.getAllApps;
 import static com.example.thesp.distractmenot.StringConstants.NEW_BUTTON_NAME;
 
 public class SetUpActivity extends AppCompatActivity {
@@ -24,6 +27,12 @@ public class SetUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up);
+
+        // Get the list of apps
+        List<AppObject> applist = AppObject.getAllApps(this);
+        for (int i = 0; i < applist.size(); i++) {
+            Log.i("App #" + i, applist.get(i).getName());
+        }
     }
 
     public void onNewMode(View view) {

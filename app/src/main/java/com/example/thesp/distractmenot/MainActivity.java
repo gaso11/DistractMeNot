@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
@@ -18,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
-import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
-
+/**
+ * The first activity in our class
+ *
+ * <br>Test: <ul><li>The first thing</li><li>The second thing</li><li>The third thing</li></ul>
+ */
 public class MainActivity extends AppCompatActivity {
 
     // Stores which mode is currently active
@@ -31,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
     // All modes currently available
     private ArrayList<Mode> modes;
 
-    // Changes to a new mode
+    /**
+     * Switches the user's active mode
+     *
+     * @param newMode The mode that we are switching to - or if this mode is
+     *                already active, the mode we are disabling
+     */
     private void changeMode(Mode newMode) {
         Log.i(this.getLocalClassName(), "Switching active mode");
 
