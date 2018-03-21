@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,11 +34,8 @@ public class SetUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up);
 
-        // Get the list of apps
-        List<AppObject> applist = AppObject.getAllApps(this);
-        for (int i = 0; i < applist.size(); i++) {
-            Log.i("App #" + i, applist.get(i).getName());
-        }
+        // Display the list of apps
+        new displayApps().execute(this);
     }
 
     public void onNewMode(View view) {
@@ -55,6 +53,25 @@ public class SetUpActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(NEW_BUTTON_NAME, buttonName);
         startActivity(intent);
+    }
+
+    // Gets the list of apps (which can take a while) in the background
+    private class displayApps extends AsyncTask<Context, Void, List<AppObject> > {
+        @Override
+        protected List<AppObject> doInBackground(Context... contexts) {
+            return AppObject.getAllApps(contexts[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<AppObject> applist) {
+            super.onPostExecute(applist);
+
+            // Temporary loop to display the apps.
+            // Eventually these should be put in the ScrollView
+            for (int i = 0; i < applist.size(); i++) {
+                Log.i("App #" + i, applist.get(i).getName());
+            }
+        }
     }
 
     /**
