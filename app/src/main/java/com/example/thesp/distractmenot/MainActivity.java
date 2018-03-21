@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
 
+
 public class MainActivity extends AppCompatActivity {
 
     // Stores which mode is currently active

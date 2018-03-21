@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * This class corresponds to our activity_set_up.xml. It has the java code for all operations on
+ * that page.
+ * @author Emily T
+ */
 public class SetUpActivity extends AppCompatActivity {
 
     @Override
@@ -40,6 +45,11 @@ public class SetUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * This opens a clock for the user to choose a time that our app will be active until.
+     * @param view
+     * @author Emily T
+     */
     public void showTimePickerDialog(View view) {
 
     }
