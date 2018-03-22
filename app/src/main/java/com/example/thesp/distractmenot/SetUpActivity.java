@@ -70,6 +70,16 @@ public class SetUpActivity extends AppCompatActivity {
             // Eventually these should be put in the ScrollView
             for (int i = 0; i < applist.size(); i++) {
                 Log.i("App #" + i, applist.get(i).getName());
+
+                LinearLayout layout = (LinearLayout) findViewById(R.id.appListLayout);
+
+                Button newButton = new Button(getApplicationContext());
+                newButton.setText(applist.get(i).getName());
+
+                newButton.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                layout.addView(newButton);
             }
         }
     }
