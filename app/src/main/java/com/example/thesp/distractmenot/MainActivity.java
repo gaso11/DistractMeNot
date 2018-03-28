@@ -2,6 +2,7 @@ package com.example.thesp.distractmenot;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.AppOpsManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -105,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
     }
 
     //What happens when they come back to our app after visiting someplace else?
