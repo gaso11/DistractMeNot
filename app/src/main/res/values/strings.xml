@@ -31,4 +31,7 @@
     <string name="set_up">Set - Up</string>
     <string name="set_timer">Set Timer:</string>
     <string name="enter_a_name">Enter a name:</string>
+    <string name="first_time_launch">Thank you for downloading our app!
+        Before you get started we need access to your notifications
+        to prevent those dastardly distractions!</string>
 </resources>

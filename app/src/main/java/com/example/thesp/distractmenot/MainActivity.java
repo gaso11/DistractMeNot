@@ -1,18 +1,25 @@
 package com.example.thesp.distractmenot;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.AppOpsManager;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,12 +40,15 @@ public class MainActivity extends AppCompatActivity {
     // All modes currently available
     private ArrayList<Mode> modes;
 
+    final String PREFS_NAME = "MyPrefsFile";
+
     /**
      * Switches the user's active mode
      *
      * @param newMode The mode that we are switching to - or if this mode is
      *                already active, the mode we are disabling
      */
+
     private void changeMode(Mode newMode) {
         Log.i(this.getLocalClassName(), "Switching active mode");
 
@@ -86,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Boolean gavePermission = false;
         setContentView(R.layout.activity_main);
 
         String buttonNameTest = loadSharedPref();
@@ -106,12 +116,45 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
-
-        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+/*
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED{
+             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+             builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
+             .setNegativeButton("No", dialogClickListener).show();
         }
+*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Because this is using SharedPreferences, if you want to make changes to this
+        //you will have to manually delete the saved file if you want the popup to show again.
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        //If first time being launched
+        if (settings.getBoolean("my_first_time", true)) {
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog);
+            dialog.setTitle("Dialog Box");
+
+            Button button = (Button) dialog.findViewById(R.id.Button01);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                    startActivity(intent);
+                }
+            });
+
+            dialog.show();
+        }
+
+        //You can also just change the false value to true if you don't want to
+        //edit the save folder
+        settings.edit().putBoolean("my_first_time", false).apply();
     }
 
     //What happens when they come back to our app after visiting someplace else?
@@ -119,8 +162,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(this.getLocalClassName()+ "onResume", "Activity state change: onResume");
-
-
     }
 
     //what happens when they change to a new screen leaving our app
