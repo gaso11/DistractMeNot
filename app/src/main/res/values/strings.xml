@@ -8,8 +8,13 @@
     <string name="button_set_timer">Set Timer</string>
     <string name="button_preset1">Study</string>
     <string name="button_preset2">Religion</string>
-
+    <string name="enable">Enable</string>
+    <string name="blocked">Blocked</string>
     <string name="about_title">About Us</string>
+    <string name="enter_name">Enter name:</string>
+    <string name="create">Create</string>
+    <string name="set_up_two">Set Up:</string>
+
     <string name="about_text">
         The purpose of this app is to help users avoid distractions on their phone. Many of us
         have distractions such as notifications, Social Media Platforms, messages and many other
