@@ -18,14 +18,16 @@ public class AppObject {
 
     private Drawable logo;
     private String name;
+    private String stringID;
     public Drawable getLogo() { return logo; }
     public String getName() { return name; }
+    public String getStringID() { return stringID; }
 
     // The cached list of all apps
     private static List<AppObject> appList;
 
     public static List<AppObject> getAllApps(Context context) {
-        if (appList == null) {
+      //  if (appList == null) {
 
             List<AppObject> list = new ArrayList<AppObject>();
 
@@ -39,6 +41,7 @@ public class AppObject {
                     AppObject app = new AppObject();
                     app.name = pkgInfo.applicationInfo.loadLabel(pm).toString();
                     app.logo = pkgInfo.applicationInfo.loadLogo(pm);
+                    app.stringID = pkgInfo.applicationInfo.name;
                     list.add(list.size(), app);
 
                     String appName = pkgInfo.applicationInfo.loadLabel(pm).toString();
@@ -50,7 +53,7 @@ public class AppObject {
             }
 
             appList = list;
-        }
+      //  }
 
         return appList;
     }

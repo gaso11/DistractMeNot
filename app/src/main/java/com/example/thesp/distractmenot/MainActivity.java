@@ -1,25 +1,11 @@
 package com.example.thesp.distractmenot;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.AppOpsManager;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
-import android.service.notification.NotificationListenerService;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,8 +15,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
-import static com.example.thesp.distractmenot.StringConstants.SHARED_PREF_FILE;
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void blockApp(String appID) {
+        // Send broadcast message to the App Notification Service to start blocking an app
+        Intent intent = new Intent("com.example.thesp.distractmenot.Broadcasts");
+        intent.putExtra("block_app", appID);
+        sendBroadcast(intent);
+        Log.i("AppControl2","Sending broadcast from activity to block.");
+    }
+
     /* Temporary functions for the buttons
         In the future buttons will be added dynamically. I think they should be stored in a list,
         and there can be some kind of function that will connect to all buttons in the list (somehow)
@@ -104,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
         // The two default buttons
         modes = new ArrayList<Mode>(20);
 
-        modes.add(0, new Mode("button_preset1", this));
-        modes.add(1, new Mode("button_preset2", this));
+        modes.add(0, new Mode("button_preset1", new ArrayList<AppObject>(), this));
+        modes.add(1, new Mode("button_preset2", new ArrayList<AppObject>(), this));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
 
@@ -134,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         //If first time being launched
+        /*
         if (settings.getBoolean("my_first_time", true)) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog);
@@ -151,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
             dialog.show();
         }
+        */
 
         //You can also just change the false value to true if you don't want to
         //edit the save folder

@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,15 +73,17 @@ public class SetUpActivity extends AppCompatActivity {
             for (int i = 0; i < applist.size(); i++) {
                 Log.i("App #" + i, applist.get(i).getName());
 
-                LinearLayout layout = (LinearLayout) findViewById(R.id.appListLayout);
+                LinearLayout layout = findViewById(R.id.appListLayout);
 
-                Button newButton = new Button(getApplicationContext());
-                newButton.setText(applist.get(i).getName());
+                ToggleButton newToggle = new ToggleButton(getApplicationContext());
+                newToggle.setTextOff(getString(R.string.enable));
+                newToggle.setTextOn(getString(R.string.blocked));
 
-                newButton.setLayoutParams(new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                layout.addView(newButton);
+                newToggle.setText(applist.get(i).getName());
+                newToggle.setBackgroundDrawable(applist.get(i).getLogo());
+
+                newToggle.setLayoutParams(layout.getLayoutParams());
+                layout.addView(newToggle);
             }
         }
     }
