@@ -127,6 +127,9 @@ public class SetUpActivity extends AppCompatActivity {
 
                 // Add the new entry to the list
                 layout.addView(newLayout);
+
+                // TESTCODE
+                ((ImageView)findViewById(R.id.exampleImage)).setImageDrawable(applist.get(i).getLogo());
             }
         }
     }
