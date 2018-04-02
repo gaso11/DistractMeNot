@@ -22,12 +22,25 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="onAboutButton"
         android:text="@string/button_about"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        tools:layout_editor_absoluteY="367dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSetUpButton"
+        android:text="@string/button_setup"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="367dp" />
+
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -39,43 +52,72 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.13999999">
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
-            android:id="@+id/buttonAreaLayout"
+            android:id="@+id/LinearLayoutOne"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="800dp"
+            tools:layout_editor_absoluteY="800dp">
 
-            <Button
-                android:id="@+id/button_preset1"
+            <LinearLayout
+                android:id="@+id/LinearLayoutTwo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onButtonPreset1"
-                android:text="@string/button_preset1" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_preset2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onButtonPreset2"
-                android:text="@string/button_preset2" />
+                <Button
+                    android:id="@+id/button_preset1"
+                    android:layout_width="236dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onButtonPreset1"
+                    android:text="@string/button_preset1" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/modify"
+                    tools:layout_editor_absoluteX="262dp"
+                    tools:layout_editor_absoluteY="195dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_preset2"
+                    android:layout_width="236dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onButtonPreset2"
+                    android:text="@string/button_preset2" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/modify"
+                    tools:layout_editor_absoluteX="262dp"
+                    tools:layout_editor_absoluteY="195dp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
+
+
     </ScrollView>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:onClick="onSetUpButton"
-        android:text="@string/button_setup"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

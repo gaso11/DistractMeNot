@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         modes.add(0, new Mode("button_preset1", new ArrayList<AppObject>(), this));
         modes.add(1, new Mode("button_preset2", new ArrayList<AppObject>(), this));
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.buttonAreaLayout);
+      LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayoutTwo);
 
         Button newButton = new Button(this);
         newButton.setText(buttonNameTest);
