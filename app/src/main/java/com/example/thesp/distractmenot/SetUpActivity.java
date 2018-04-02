@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -94,15 +96,37 @@ public class SetUpActivity extends AppCompatActivity {
 
                 LinearLayout layout = findViewById(R.id.appListLayout);
 
+                LinearLayout newLayout = new LinearLayout(getApplicationContext());
+                /*
+                newLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50));
+                newLayout.setOrientation(LinearLayout.HORIZONTAL);
+                */
+                newLayout.setLayoutParams((findViewById(R.id.exampleLayout)).getLayoutParams());
+
+                // 1: The logo
+                ImageView newImage = new ImageView(getApplicationContext());
+                newImage.setLayoutParams((findViewById(R.id.exampleImage)).getLayoutParams());
+                newImage.setImageDrawable(applist.get(i).getLogo());
+                newLayout.addView(newImage);
+
+                // 2: The textview
+                TextView newText = new TextView(getApplicationContext());
+                newText.setLayoutParams((findViewById(R.id.exampleText)).getLayoutParams());
+                newText.setText(applist.get(i).getName());
+                newLayout.addView(newText);
+
+                // 3: The toggle button
                 ToggleButton newToggle = new ToggleButton(getApplicationContext());
+                newToggle.setLayoutParams((findViewById(R.id.exampleButton)).getLayoutParams());
                 newToggle.setTextOff(getString(R.string.enable));
                 newToggle.setTextOn(getString(R.string.blocked));
+                newToggle.setText(getString(R.string.enable));
 
-                newToggle.setText(applist.get(i).getName());
-                newToggle.setBackgroundDrawable(applist.get(i).getLogo());
+                //newToggle.setLayoutParams(layout.getLayoutParams());
+                newLayout.addView(newToggle);
 
-                newToggle.setLayoutParams(layout.getLayoutParams());
-                layout.addView(newToggle);
+                // Add the new entry to the list
+                layout.addView(newLayout);
             }
         }
     }
