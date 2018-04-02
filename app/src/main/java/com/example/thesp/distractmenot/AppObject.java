@@ -40,6 +40,8 @@ public class AppObject {
                 {
                     AppObject app = new AppObject();
                     app.name = pkgInfo.applicationInfo.loadLabel(pm).toString();
+                    // Don't block our own app
+                    if (app.name.equals("Distract Me Not")) { continue; }
                     app.logo = pkgInfo.applicationInfo.loadLogo(pm);
                     app.stringID = pkgInfo.applicationInfo.name;
                     list.add(list.size(), app);

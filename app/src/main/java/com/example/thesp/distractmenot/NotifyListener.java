@@ -22,6 +22,10 @@ public class NotifyListener extends NotificationListenerService {
 
     private List<String> blockedApps;
 
+    public void setBlockedApps(List<String> newList) {
+        blockedApps = newList;
+    }
+
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         Log.i("AppControl2","onNotificationPosted called");

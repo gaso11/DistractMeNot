@@ -108,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
+/*
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED{
+             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+             builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
+             .setNegativeButton("No", dialogClickListener).show();
+        }
+*/
     }
 
     @Override
