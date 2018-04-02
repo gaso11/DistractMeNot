@@ -108,13 +108,6 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(newButton);
-/*
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED{
-             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-             builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
-             .setNegativeButton("No", dialogClickListener).show();
-        }
-*/
     }
 
     @Override
@@ -126,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         //If first time being launched
-        /*
         if (settings.getBoolean("my_first_time", true)) {
             final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog);
@@ -144,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
             dialog.show();
         }
-        */
 
         //You can also just change the false value to true if you don't want to
         //edit the save folder
