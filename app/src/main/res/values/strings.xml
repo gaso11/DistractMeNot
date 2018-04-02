@@ -39,4 +39,5 @@
     <string name="first_time_launch">Thank you for downloading our app!
         Before you get started we need access to your notifications
         to prevent those dastardly distractions!</string>
+    <string name="no_name_error">You must enter a name for your mode</string>
 </resources>

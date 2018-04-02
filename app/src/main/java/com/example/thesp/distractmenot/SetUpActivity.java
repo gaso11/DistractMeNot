@@ -1,6 +1,7 @@
 package com.example.thesp.distractmenot;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,17 +45,35 @@ public class SetUpActivity extends AppCompatActivity {
         EditText settingName = findViewById(R.id.settingName);
         String buttonName = settingName.getText().toString();
 
-        //Save Settings
-        Toast.makeText(getApplicationContext(),"Saving Settings", Toast.LENGTH_SHORT).show();
+        if (buttonName.equals("")) {
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_no_name_error);
+            dialog.setTitle("Dialog Box");
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("Setting", buttonName);
-        editor.commit();
+            Button button = (Button) dialog.findViewById(R.id.Button02);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(NEW_BUTTON_NAME, buttonName);
-        startActivity(intent);
+            dialog.show();
+
+        } else {
+
+            //Save Settings
+            Toast.makeText(getApplicationContext(), "Saving Settings", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("Setting", buttonName);
+            editor.commit();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(NEW_BUTTON_NAME, buttonName);
+            startActivity(intent);
+        }
     }
 
     // Gets the list of apps (which can take a while) in the background
