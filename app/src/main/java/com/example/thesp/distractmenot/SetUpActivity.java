@@ -22,7 +22,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.example.thesp.distractmenot.AppObject.getAllApps;
 import static com.example.thesp.distractmenot.StringConstants.NEW_BUTTON_NAME;
@@ -67,10 +69,27 @@ public class SetUpActivity extends AppCompatActivity {
             //Save Settings
             Toast.makeText(getApplicationContext(), "Saving Settings", Toast.LENGTH_SHORT).show();
 
+            //Load in set
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            Set<String> buttonList = prefs.getStringSet("List", null);
+            if (buttonList == null) {
+                buttonList = new HashSet<>();
+            }
+
+            //Add name to list
+            buttonList.add(buttonName);
+
+            //Save list
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putStringSet("List", buttonList);
+            editor.commit();
+
+            /*
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("Setting", buttonName);
             editor.commit();
+            */
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_BUTTON_NAME, buttonName);

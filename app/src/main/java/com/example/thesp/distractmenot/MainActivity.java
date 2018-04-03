@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -99,22 +101,24 @@ public class MainActivity extends AppCompatActivity {
         modes.add(0, new Mode("button_preset1", new ArrayList<AppObject>(), this));
         modes.add(1, new Mode("button_preset2", new ArrayList<AppObject>(), this));
 
-      LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayoutTwo);
+        //Load in buttons
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> buttonList = prefs.getStringSet("List", null);
 
-        Button newButton = new Button(this);
-        newButton.setText(buttonNameTest);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayoutOne);
 
-        newButton.setLayoutParams(new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT));
-        layout.addView(newButton);
-/*
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED{
-             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-             builder.setMessage("Distract Me Not needs access to notifications. Do you give us permission?").setPositiveButton("Yes", dialogClickListener)
-             .setNegativeButton("No", dialogClickListener).show();
+        if (buttonList != null) {
+            for (String s : buttonList) {
+                Button newButton = new Button(this);
+                System.out.println(s);
+                newButton.setText(s);
+                layout.removeView(newButton);
+                newButton.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                layout.addView(newButton);
+            }
         }
-*/
     }
 
     @Override
