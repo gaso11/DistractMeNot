@@ -113,13 +113,7 @@ public class SetUpActivity extends AppCompatActivity {
             for (int i = 0; i < applist.size(); i++) {
                 Log.i("App #" + i, applist.get(i).getName());
 
-                LinearLayout layout = findViewById(R.id.appListLayout);
-
                 LinearLayout newLayout = new LinearLayout(getApplicationContext());
-                /*
-                newLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50));
-                newLayout.setOrientation(LinearLayout.HORIZONTAL);
-                */
                 newLayout.setLayoutParams((findViewById(R.id.exampleLayout)).getLayoutParams());
 
                 // 1: The logo
@@ -145,10 +139,8 @@ public class SetUpActivity extends AppCompatActivity {
                 newLayout.addView(newToggle);
 
                 // Add the new entry to the list
-                layout.addView(newLayout);
-
-                // TESTCODE
-                ((ImageView)findViewById(R.id.exampleImage)).setImageDrawable(applist.get(i).getLogo());
+                newLayout.setVisibility(View.VISIBLE);
+                ((LinearLayout)findViewById(R.id.appListLayout)).addView(newLayout);
             }
         }
     }
