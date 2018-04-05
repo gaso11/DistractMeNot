@@ -19,20 +19,33 @@
 
     <string name="about_text">
         The purpose of this app is to help users avoid distractions on their phone. Many of us
-        have distractions such as notifications, Social Media Platforms, messages and many other
-        things. This app hopes to address those issues by preventing the user for accessing apps
-        and notifications.\n\n
+        have distractions such as notifications, social media platforms, messages and many other
+        things. This app hopes to address those issues by preventing pop up notifications and
+        incoming messages that otherwise take your focus away. This app is designed for android
+        phones only. \n\n
 
         Set up:\n\n
 
-        1) On the setup page, tap create at the bottom of the screen.\n\n
-        2) Enter in the requested information and tap create and apply.\n\n
-        3) That is it! Your settings will be applied to your phone.\n\n
+        1) On the main screen tap "Set Up Preset" at the bottom of the page.\n\n
+        2) Enter the name you wish to call your new setting and select which apps you want enabled
+        or disabled. Enabled means that incoming messages and notifications will continue as usual.
+        Disabled means the messages and notifications will not appear to distract you. When finished,
+        click the "Create" button at the bottom of the page. \n\n
+        3) To activate or use your created setting, tap the name of the setting. If it turns pink,
+        that setting is active and working on your phone. To turn the setting off, simply tap the
+        button again and the pink color will disappear. Neutral color means the setting is not
+        active on your phone and no blocking is engaged. \n\n
+        4) To create additional settings, repeat steps 1 through 3.
+        5) To delete a setting or modify your previous choice of which apps to block or enable,
+        click the "Modify" button next to the name of the setting. This will take you back to the
+        Set Up Page where you can change your enabled and disabled settings. Click "Create" at the
+        bottom of the page to apply your new preferences, or click "Delete" at the bottom of the
+        page to erase the setting completely.
 
-        Verify that your setting is active on the Mode screen and you are good to go!
     </string>
     <string name="about_us">
-        Distract me not created by Emily, Tyler, Evan and George \n
+        Distract Me Not App created by Brigham Young University Idaho Students:
+        Emily Togaga'e, Tyler Starr, Evan Lewis and George Wieland. \n
         @2018
     </string>
     <string name="set_up">Set - Up</string>

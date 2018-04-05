@@ -130,7 +130,8 @@
                     android:layout_weight="0"
                     android:text="ToggleButton"
                     android:textOff="@string/enable"
-                    android:textOn="@string/blocked" />
+                    android:textOn="@string/blocked"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
 
