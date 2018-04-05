@@ -14,10 +14,10 @@ import java.util.List;
 public class Mode {
 
     // Pass in the context so this class can get view elements by ID
-    public Mode(String name, List<AppObject> apps, Activity context) {
+    public Mode(String name, List<AppObject> apps, int id, Activity context) {
         modeName = name;
         blockedApps = apps;
-        button = context.findViewById(context.getResources().getIdentifier(name, "id", context.getPackageName()));
+        button = context.findViewById(id);
 
     }
 

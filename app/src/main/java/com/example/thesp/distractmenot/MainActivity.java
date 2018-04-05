@@ -37,27 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void changeMode(Mode newMode) {
         Log.i(this.getLocalClassName(), "Switching active mode");
+        assert(newMode != null);
 
-        // Set the button colors
         if (currentMode != null) {
-            // Whatever is the current selected mode should be deactivated
-            int resID = getResources().getIdentifier(currentMode.getModeName(), "id", getPackageName());
-            Button b = findViewById(resID);
-            b.getBackground().setColorFilter(null); // Sets ColorFilter back to default
-        }
+            // Deactivate the current mode
+            currentMode.getButton().getBackground().setColorFilter(null);
 
-        if (currentMode != newMode) {
-            if (currentMode != null)
-                Log.d(this.getLocalClassName(), "Switching from " + currentMode.getModeName() + " to " + newMode.getModeName());
-            currentMode = newMode;
-
-            int resID = getResources().getIdentifier(newMode.getModeName(), "id", getPackageName());
-            Button b = findViewById(resID);
-            b.getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
-        } else {
-            Log.d(this.getLocalClassName(), "Deactivating mode " + currentMode.getModeName());
-            currentMode = null;
+            if (currentMode.getModeName().equals(newMode.getModeName())) {
+                currentMode = null;
+                return;
+            }
         }
+        // Switch modes
+        currentMode = newMode;
+        newMode.getButton().getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
     }
 
     public void blockApp(String appID) {
@@ -65,14 +58,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent("com.example.thesp.distractmenot.Broadcasts");
         intent.putExtra("block_app", appID);
         sendBroadcast(intent);
-        Log.i("AppControl2","Sending broadcast from activity to block.");
+        Log.i("blockApp","Sending broadcast from activity to block.");
     }
-
-    /* Temporary functions for the buttons
-        In the future buttons will be added dynamically. I think they should be stored in a list,
-        and there can be some kind of function that will connect to all buttons in the list (somehow)
-        and it can be applied to the dynamically generated buttons.      -Tyler
-     */
 
     // When a button is pressed, the mode gets set to that one
     public void onButtonPreset1(View view) { changeMode(modes.get(0)); }
@@ -98,8 +85,14 @@ public class MainActivity extends AppCompatActivity {
         // The two default buttons
         modes = new ArrayList<Mode>(20);
 
-        modes.add(0, new Mode("button_preset1", new ArrayList<AppObject>(), this));
-        modes.add(1, new Mode("button_preset2", new ArrayList<AppObject>(), this));
+        modes.add(0, new Mode("Preset1",
+                                          new ArrayList<AppObject>(),
+                                          getResources().getIdentifier("button_preset1", "id", getPackageName()),
+                                   this));
+        modes.add(1, new Mode("Preset2",
+                new ArrayList<AppObject>(),
+                getResources().getIdentifier("button_preset2", "id", getPackageName()),
+                this));
 
         //Load in buttons
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -113,10 +106,20 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(s);
                 newButton.setText(s);
                 layout.removeView(newButton);
+                final int id = View.generateViewId();
+                newButton.setId(id);
                 newButton.setLayoutParams(new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
                 layout.addView(newButton);
+
+                // Connect the function so these buttons can be pressed
+                newButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeMode(new Mode("Test" + id, new ArrayList<AppObject>(), id, MainActivity.this));
+                    }
+                });
             }
         }
     }

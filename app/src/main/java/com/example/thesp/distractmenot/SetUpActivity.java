@@ -1,6 +1,5 @@
 package com.example.thesp.distractmenot;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,23 +10,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.example.thesp.distractmenot.AppObject.getAllApps;
-import static com.example.thesp.distractmenot.StringConstants.NEW_BUTTON_NAME;
+import static com.example.thesp.distractmenot.StringConstants.*;
 
 /**
  * This class corresponds to our activity_set_up.xml. It has the java code for all operations on
@@ -45,6 +42,10 @@ public class SetUpActivity extends AppCompatActivity {
         new displayApps().execute(this);
     }
 
+    /**
+     * This function is called when the button to apply changes is pressed
+     * @param view
+     */
     public void onNewMode(View view) {
         EditText settingName = findViewById(R.id.settingName);
         String buttonName = settingName.getText().toString();
@@ -93,6 +94,36 @@ public class SetUpActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(NEW_BUTTON_NAME, buttonName);
+
+            // Add all the apps that need to be blocked
+            LinearLayout layout = findViewById(R.id.appListLayout);
+            for (int i = 0; i < layout.getChildCount(); i++) {
+                LinearLayout container = (LinearLayout)layout.getChildAt(i);
+
+                String appname = "";
+                boolean blocked = false;
+
+                for (int j = 0; j < container.getChildCount(); j++) {
+                    View child = container.getChildAt(j);
+
+                    // Get the name of the app
+                    if (child instanceof TextView && !(child instanceof ToggleButton))
+                        //intent.putExtra(NEW_BUTTON_APPS + i, ((TextView) container.getChildAt(j)).getText());
+                        appname = (String)((TextView) child).getText();
+
+                    // Get whether this button has been pressed
+                    if (child instanceof ToggleButton)
+                        if (((ToggleButton) child).isChecked())
+                            blocked = true;
+                }
+
+                // Put in the setting, if necessary
+                assert(!appname.equals(""));
+                if (blocked) {
+                    Log.d("BLOCKING APP:", appname);
+                    intent.putExtra(NEW_BUTTON_APPS + i, appname);
+                }
+            }
             startActivity(intent);
         }
     }
@@ -111,7 +142,7 @@ public class SetUpActivity extends AppCompatActivity {
             // Temporary loop to display the apps.
             // Eventually these should be put in the ScrollView
             for (int i = 0; i < applist.size(); i++) {
-                Log.i("App #" + i, applist.get(i).getName());
+                Log.v("App #" + i, applist.get(i).getName());
 
                 LinearLayout newLayout = new LinearLayout(getApplicationContext());
                 newLayout.setLayoutParams((findViewById(R.id.exampleLayout)).getLayoutParams());
