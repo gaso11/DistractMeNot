@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import org.w3c.dom.Text;
-
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,10 +33,27 @@ import static com.example.thesp.distractmenot.StringConstants.*;
  */
 public class SetUpActivity extends AppCompatActivity {
 
+    private List<AppObject> allApps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up);
+
+        //Change toggle background color
+        ToggleButton toggle = findViewById(R.id.exampleButton);
+        int checkedColor = 0;
+        ColorStateList states = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        checkedColor,
+                        Color.alpha(0xffd84098)
+                }
+        );
+        toggle.setBackgroundTintList(states);
 
         // Display the list of apps
         new displayApps().execute(this);
@@ -96,8 +113,11 @@ public class SetUpActivity extends AppCompatActivity {
             intent.putExtra(NEW_BUTTON_NAME, buttonName);
 
             // Add all the apps that need to be blocked
+            List<AppObject> blockedApps = new ArrayList<AppObject>();
             LinearLayout layout = findViewById(R.id.appListLayout);
-            for (int i = 0; i < layout.getChildCount(); i++) {
+
+            // i starts at 1 to skip the GONE layout used as an example
+            for (int i = 1; i < layout.getChildCount(); i++) {
                 LinearLayout container = (LinearLayout)layout.getChildAt(i);
 
                 String appname = "";
@@ -121,9 +141,21 @@ public class SetUpActivity extends AppCompatActivity {
                 assert(!appname.equals(""));
                 if (blocked) {
                     Log.d("BLOCKING APP:", appname);
-                    intent.putExtra(NEW_BUTTON_APPS + i, appname);
+                    // blockedApps is indexed by one less than i; see beginning of for loop
+                    blockedApps.add(allApps.get(i-1));
                 }
             }
+
+            /*
+            Serializing the mode with GSON presents problems because serializing a mode
+            causes an infinite loop. For now I will just block all notifications.
+             */
+
+            /*Log.d(getLocalClassName(), "Creating Mode");
+            Mode generatedMode = new Mode(buttonName, blockedApps);
+            Log.d(getLocalClassName(), "Building intent");
+            intent.putExtra(NEW_BUTTON_MODE, new Gson().toJson(generatedMode));
+            Log.d(getLocalClassName(), "Starting intent");*/
             startActivity(intent);
         }
     }
@@ -138,9 +170,9 @@ public class SetUpActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<AppObject> applist) {
             super.onPostExecute(applist);
+            allApps = applist;
 
-            // Temporary loop to display the apps.
-            // Eventually these should be put in the ScrollView
+            // Display the apps
             for (int i = 0; i < applist.size(); i++) {
                 Log.v("App #" + i, applist.get(i).getName());
 

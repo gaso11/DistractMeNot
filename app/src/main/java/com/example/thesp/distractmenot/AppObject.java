@@ -24,7 +24,7 @@ public class AppObject {
     public String getStringID() { return stringID; }
 
     // The cached list of all apps
-    private static List<AppObject> appList;
+    // private static List<AppObject> appList;
 
     public static List<AppObject> getAllApps(Context context) {
       //  if (appList == null) {
@@ -55,9 +55,10 @@ public class AppObject {
                 }
             }
 
-            appList = list;
+            //appList = list;
       //  }
 
-        return appList;
+        //return appList;
+        return list;
     }
 }

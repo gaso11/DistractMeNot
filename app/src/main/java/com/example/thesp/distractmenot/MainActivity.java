@@ -1,6 +1,7 @@
 package com.example.thesp.distractmenot;
 
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import android.widget.ToggleButton;
 import android.graphics.Color;
@@ -42,18 +44,40 @@ public class MainActivity extends AppCompatActivity {
         Log.i(this.getLocalClassName(), "Switching active mode");
         assert(newMode != null);
 
+        if (newMode.getButton() == null) {
+            Log.w(getLocalClassName(), "Button for mode " + newMode.getModeName() + " is not connected");
+            return;
+        }
+
         if (currentMode != null) {
             // Deactivate the current mode
+            Log.d(this.getLocalClassName(), "Deactivating mode " + currentMode.getModeName());
             currentMode.getButton().getBackground().setColorFilter(null);
 
             if (currentMode.getModeName().equals(newMode.getModeName())) {
                 currentMode = null;
+                Log.d(this.getLocalClassName(), "We're done here");
                 return;
             }
         }
         // Switch modes
+        Log.d(this.getLocalClassName(),"Switching to mode " + newMode.getModeName());
         currentMode = newMode;
         newMode.getButton().getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
+
+        // These lines cause error so they are commented out
+
+        // Activate do not disturb mode
+        //NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS);
+
+        // Block the apps
+        /*for (AppObject app : newMode.getBlockedApps()) {
+            blockApp(app.getStringID());
+            Log.d("Blocking App", app.getName());
+        }*/
+
+        blockAllApps();
     }
 
     public void blockApp(String appID) {
@@ -61,7 +85,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent("com.example.thesp.distractmenot.Broadcasts");
         intent.putExtra("block_app", appID);
         sendBroadcast(intent);
-        Log.i("blockApp","Sending broadcast from activity to block.");
+        Log.i("blockApp","Sending broadcast from activity to block " + appID);
+    }
+
+    public void blockAllApps() {
+        List<AppObject> allApps = AppObject.getAllApps(this);
+        for (AppObject app : allApps) {
+            blockApp(app.getStringID());
+        }
     }
 
     // When a button is pressed, the mode gets set to that one
@@ -81,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         String buttonNameTest = loadSharedPref();
@@ -88,29 +120,24 @@ public class MainActivity extends AppCompatActivity {
         // The two default buttons
         modes = new ArrayList<Mode>(20);
 
-        modes.add(0, new Mode("Preset1",
-                                          new ArrayList<AppObject>(),
-                                          getResources().getIdentifier("button_preset1", "id", getPackageName()),
-                                   this));
+        /*modes.add(0, new Mode(
+                "Preset1",
+                new ArrayList<AppObject>(),
+                getResources().getIdentifier("button_preset1", "id", getPackageName()),
+                this));
         modes.add(1, new Mode("Preset2",
                 new ArrayList<AppObject>(),
                 getResources().getIdentifier("button_preset2", "id", getPackageName()),
-                this));
+                this));*/
 
-        //Change toggle background color
-        ToggleButton toggle = findViewById(R.id.exampleButton);
-        int checkedColor = 0;
-        ColorStateList states = new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_checked},
-                        new int[]{-android.R.attr.state_checked}
-                },
-                new int[]{
-                        checkedColor,
-                        Color.alpha(0xffd84098)
-                }
-        );
-        toggle.setBackgroundTintList(states);
+        Mode mode1 = new Mode("Preset1", new ArrayList<AppObject>());
+        mode1.setButton(getResources().getIdentifier("button_preset1", "id", getPackageName()), this);
+        modes.add(0, mode1);
+        Mode mode2 = new Mode("Preset2", new ArrayList<AppObject>());
+        mode1.setButton(getResources().getIdentifier("button_preset2", "id", getPackageName()), this);
+        modes.add(1, mode2);
+
+
 
         //Load in buttons
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -120,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (buttonList != null) {
             for (String s : buttonList) {
-                Button newButton = new Button(this);
+                final Button newButton = new Button(this);
                 System.out.println(s);
                 newButton.setText(s);
                 layout.removeView(newButton);
@@ -135,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
                 newButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeMode(new Mode("Test" + id, new ArrayList<AppObject>(), id, MainActivity.this));
+                        //changeMode(new Mode("Test", new ArrayList<AppObject>(), id, MainActivity.this));
+                        changeMode(modes.get(newButton.getId()));
                     }
                 });
             }

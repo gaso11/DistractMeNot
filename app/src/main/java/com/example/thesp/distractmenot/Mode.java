@@ -2,6 +2,7 @@ package com.example.thesp.distractmenot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 
 import java.lang.ref.WeakReference;
@@ -14,10 +15,10 @@ import java.util.List;
 public class Mode {
 
     // Pass in the context so this class can get view elements by ID
-    public Mode(String name, List<AppObject> apps, int id, Activity context) {
+    public Mode(String name, List<AppObject> apps) {//}, int id, Activity context) {
         modeName = name;
         blockedApps = apps;
-        button = context.findViewById(id);
+        //button = context.findViewById(id);
 
     }
 
@@ -30,4 +31,9 @@ public class Mode {
     }
     public List<AppObject> getBlockedApps() { return blockedApps; }
     public Button getButton() { return button; }
+
+    public void setButton(int id, Activity context) {
+        button = context.findViewById(id);
+        Log.d("Mode","Getting button from id "+ id);
+    }
 }

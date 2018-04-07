@@ -8,4 +8,5 @@ public class StringConstants {
     public static final String SHARED_PREF_FILE = "distract_me_not_prefs";
     public static final String NEW_BUTTON_NAME = "extra_new_button_name";
     public static final String NEW_BUTTON_APPS = "extra_new_button_apps";
+    public static final String NEW_BUTTON_MODE = "extra_new_button_mode";
 }
