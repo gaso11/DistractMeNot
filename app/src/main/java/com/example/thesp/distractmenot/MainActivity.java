@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import android.widget.ToggleButton;
+import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,6 +96,21 @@ public class MainActivity extends AppCompatActivity {
                 new ArrayList<AppObject>(),
                 getResources().getIdentifier("button_preset2", "id", getPackageName()),
                 this));
+
+        //Change toggle background color
+        ToggleButton toggle = findViewById(R.id.exampleButton);
+        int checkedColor = 0;
+        ColorStateList states = new ColorStateList(
+                new int[][]{
+                        new int[]{android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_checked}
+                },
+                new int[]{
+                        checkedColor,
+                        Color.alpha(0xffd84098)
+                }
+        );
+        toggle.setBackgroundTintList(states);
 
         //Load in buttons
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
