@@ -162,11 +162,11 @@ public class SetUpActivity extends AppCompatActivity {
 
     // Gets the list of apps (which can take a while) in the background
     private class displayApps extends AsyncTask<Context, Void, List<AppObject> > {
+
         @Override
         protected List<AppObject> doInBackground(Context... contexts) {
             return AppObject.getAllApps(contexts[0]);
         }
-
         @Override
         protected void onPostExecute(List<AppObject> applist) {
             super.onPostExecute(applist);

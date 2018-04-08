@@ -1,12 +1,12 @@
 package com.example.thesp.distractmenot;
 
 import android.app.Dialog;
-import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,11 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import android.widget.ToggleButton;
-import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,9 +37,26 @@ public class MainActivity extends AppCompatActivity {
      *                already active, the mode we are disabling
      */
 
-    private void changeMode(Mode newMode) {
+    private Button selectedButton;
+    private void changeMode(Mode newMode, View button) {
         Log.i(this.getLocalClassName(), "Switching active mode");
         assert(newMode != null);
+
+        if (selectedButton != null) {
+            // Deactivate the current button
+            selectedButton.getBackground().setColorFilter(null);
+
+            if (selectedButton.equals(button)) {
+                selectedButton = null;
+                return;
+            }
+        }
+
+        // Switch modes
+        selectedButton = (Button)button;
+        selectedButton.getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
+
+        /*
 
         if (newMode.getButton() == null) {
             Log.w(getLocalClassName(), "Button for mode " + newMode.getModeName() + " is not connected");
@@ -63,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         // Switch modes
         Log.d(this.getLocalClassName(),"Switching to mode " + newMode.getModeName());
         currentMode = newMode;
-        newMode.getButton().getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) */, PorterDuff.Mode.DARKEN);
+        newMode.getButton().getBackground().setColorFilter(0xffd84098 /* AARRGGBB (pink) *//*, PorterDuff.Mode.DARKEN);
+        */
 
         // These lines cause error so they are commented out
 
@@ -72,12 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALARMS);
 
         // Block the apps
-        /*for (AppObject app : newMode.getBlockedApps()) {
-            blockApp(app.getStringID());
-            Log.d("Blocking App", app.getName());
-        }*/
-
-        blockAllApps();
+        new blockAllApps().execute(this);
     }
 
     public void blockApp(String appID) {
@@ -85,19 +95,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent("com.example.thesp.distractmenot.Broadcasts");
         intent.putExtra("block_app", appID);
         sendBroadcast(intent);
-        Log.i("blockApp","Sending broadcast from activity to block " + appID);
-    }
-
-    public void blockAllApps() {
-        List<AppObject> allApps = AppObject.getAllApps(this);
-        for (AppObject app : allApps) {
-            blockApp(app.getStringID());
-        }
+        Log.v("blockApp","Sending broadcast from activity to block " + appID);
     }
 
     // When a button is pressed, the mode gets set to that one
-    public void onButtonPreset1(View view) { changeMode(modes.get(0)); }
-    public void onButtonPreset2(View view) { changeMode(modes.get(1)); }
+    public void onButtonPreset1(View view) { changeMode(modes.get(0), view); }
+    public void onButtonPreset2(View view) { changeMode(modes.get(1), view); }
 
     // Switch to About activity when the about button is pressed
     public void onAboutButton(View view) {
@@ -163,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //changeMode(new Mode("Test", new ArrayList<AppObject>(), id, MainActivity.this));
-                        changeMode(modes.get(newButton.getId()));
+                        Log.d("CustomButton", "ID: " + newButton.getId());
+                        changeMode(modes.get(newButton.getId()), v);
                     }
                 });
             }
@@ -223,6 +227,17 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String name = prefs.getString("Setting", "");
         return name; //this will be changed to the JSON string once we have that
+    }
+
+    private class blockAllApps extends AsyncTask<Context, Void, Void> {
+        @Override
+        protected Void doInBackground(Context... contexts) {
+            List<AppObject> allApps = AppObject.getAllApps(contexts[0]);
+            for (AppObject app : allApps) {
+                blockApp(app.getStringID());
+            }
+            return null;
+        }
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

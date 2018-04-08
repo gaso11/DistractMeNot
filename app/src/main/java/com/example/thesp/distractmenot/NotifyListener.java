@@ -28,19 +28,19 @@ public class NotifyListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Log.i("AppControl2","onNotificationPosted called");
+        Log.i("NotifyListener","onNotificationPosted called");
         Notification mNotification=sbn.getNotification();
         if (mNotification!=null) {
             Bundle extras = mNotification.extras;
             ApplicationInfo ai = (ApplicationInfo) extras.get("android.appInfo");
-            Log.i("AppControl2", extras.toString());
+            Log.i("NotifyListener", extras.toString());
             if (ai.name != null) {
-                Log.i("AppControl2", ai.name);
+                Log.i("NotifyListener", ai.name);
 
                 // Look for notifications to clear/block
                 if (blockedApps.contains(ai.name)) {
                     cancelNotification(sbn.getKey());
-                    Log.i("AppControl2", "Clearing Notification for requested app.");
+                    Log.i("NotifyListener", "Clearing Notification for requested app.");
                 }
             }
         }
@@ -69,7 +69,7 @@ public class NotifyListener extends NotificationListenerService {
             // Look in the intent for the app name to block
             if (intent.hasExtra("block_app")) {
                 blockedApps.add(intent.getStringExtra("block_app"));
-                Log.i("AppControl2","Received broadcast from activity to block.");
+                Log.v("NotifyListener","Received broadcast from activity to block.");
             }
         }
     }
